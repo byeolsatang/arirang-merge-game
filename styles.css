@@ -1,0 +1,147 @@
+:root {
+  --bg: #0e0b12;
+  --panel: #17111f;
+  --panel-2: #22182c;
+  --text: #f8f4ff;
+  --muted: #b8adbf;
+  --accent: #caa8ff;
+  --line: rgba(255,255,255,.14);
+  --danger: #ff6d8b;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); }
+body { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+
+button { font: inherit; }
+.app { width: min(100%, 520px); margin: 0 auto; padding: 20px 14px 28px; }
+
+.topbar, .statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+h1 { margin: 0; font-size: clamp(20px, 5vw, 30px); line-height: 1.05; }
+
+.scorebox {
+  min-width: 88px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  text-align: right;
+}
+.scorebox span { display:block; color:var(--muted); font-size:10px; letter-spacing:.12em; }
+.scorebox strong { font-size:24px; }
+
+.statusbar {
+  margin: 14px 0 10px;
+  padding: 10px 12px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+.statusbar p { margin:0; flex:1; color:var(--muted); font-size:12px; line-height:1.4; }
+
+.next { display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:.12em; color:var(--muted); }
+.next-preview {
+  width: 38px; height: 38px; border-radius: 50%;
+  display:grid; place-items:center; overflow:hidden;
+  background: var(--panel-2);
+  border:1px solid var(--line);
+}
+.next-preview img { width:100%; height:100%; object-fit:cover; }
+
+#sound-toggle {
+  width: 38px; height:38px; border:1px solid var(--line); background:transparent; color:var(--text); cursor:pointer;
+}
+
+.game-shell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 45%),
+    var(--panel);
+  border: 1px solid var(--line);
+  touch-action: none;
+}
+canvas { display:block; width:100%; height:100%; }
+
+.drop-line {
+  position:absolute; z-index:3; top:20%; left:0; right:0;
+  border-top:1px dashed rgba(255,255,255,.22);
+  pointer-events:none;
+}
+
+.effect-layer { position:absolute; inset:0; z-index:5; pointer-events:none; overflow:hidden; }
+
+.merge-text {
+  position:absolute;
+  transform:translate(-50%,-50%) scale(.55);
+  font-weight:900;
+  letter-spacing:.04em;
+  white-space:nowrap;
+  text-shadow:0 3px 18px rgba(0,0,0,.5);
+  animation: mergeText .8s cubic-bezier(.16,.9,.3,1) forwards;
+}
+
+.particle {
+  position:absolute;
+  width:10px; height:10px; border-radius:50%;
+  transform:translate(-50%,-50%);
+  animation: particleBurst .7s ease-out forwards;
+}
+
+.flash {
+  position:absolute; inset:0; opacity:0; background:white;
+  animation: flash .28s ease-out;
+}
+
+.game-shell.shake { animation: shake .25s linear; }
+
+.gameover {
+  position:absolute; z-index:10; inset:0;
+  display:grid; place-content:center; gap:12px; text-align:center;
+  background:rgba(8,6,10,.84); backdrop-filter:blur(5px);
+}
+.gameover[hidden] { display:none; }
+.gameover p { margin:0; font-size:14px; letter-spacing:.18em; color:var(--muted); }
+.gameover strong { font-size:52px; }
+.gameover button { padding:12px 18px; border:0; background:var(--text); color:var(--bg); cursor:pointer; }
+
+footer { color:var(--muted); font-size:11px; text-align:center; }
+code { color:var(--accent); }
+
+@keyframes mergeText {
+  0% { opacity:0; transform:translate(-50%,-50%) scale(.45) rotate(-6deg); }
+  25% { opacity:1; transform:translate(-50%,-70%) scale(1.12) rotate(2deg); }
+  100% { opacity:0; transform:translate(-50%,-130%) scale(.96); }
+}
+@keyframes particleBurst {
+  from { opacity:1; translate:0 0; scale:1; }
+  to { opacity:0; translate:var(--dx) var(--dy); scale:.2; }
+}
+@keyframes flash {
+  0% { opacity:0; } 30% { opacity:.32; } 100% { opacity:0; }
+}
+@keyframes shake {
+  0%,100% { transform:translate(0,0); }
+  25% { transform:translate(-5px,2px); }
+  50% { transform:translate(4px,-2px); }
+  75% { transform:translate(-3px,-1px); }
+}
+
+@media (max-width: 420px) {
+  .app { padding:12px 10px 20px; }
+  .statusbar p { display:none; }
+}
