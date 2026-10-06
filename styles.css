@@ -13,127 +13,248 @@
 html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); }
 body { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 
-button { font: inherit; }
-.app { width: min(100%, 520px); margin: 0 auto; padding: 20px 14px 28px; }
+button, select { font: inherit; }
 
-.topbar, .statusbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
+.app {
+  width: min(100%, 600px);
+  margin: 0 auto;
+  padding: 10px 8px 14px;
 }
 
+.topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 2px 4px 9px;
+}
+
+.title-block { min-width: 0; }
+
 .eyebrow {
-  margin: 0 0 4px;
+  margin: 0 0 3px;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: .16em;
 }
 
-h1 { margin: 0; font-size: clamp(20px, 5vw, 30px); line-height: 1.05; }
-
-.scorebox {
-  min-width: 88px;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  text-align: right;
+h1 {
+  margin: 0;
+  font-size: clamp(19px, 5vw, 28px);
+  line-height: 1.05;
 }
-.scorebox span { display:block; color:var(--muted); font-size:10px; letter-spacing:.12em; }
-.scorebox strong { font-size:24px; }
 
-.statusbar {
-  margin: 14px 0 10px;
-  padding: 10px 12px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-}
-.statusbar p { margin:0; flex:1; color:var(--muted); font-size:12px; line-height:1.4; }
-
-.next { display:flex; align-items:center; gap:8px; font-size:9px; letter-spacing:.12em; color:var(--muted); }
-.next-preview {
-  width: 38px; height: 38px; border-radius: 50%;
-  display:grid; place-items:center; overflow:hidden;
-  background: var(--panel-2);
-  border:1px solid var(--line);
-}
-.next-preview img { width:100%; height:100%; object-fit:cover; }
-
-#sound-toggle {
-  width: 38px; height:38px; border:1px solid var(--line); background:transparent; color:var(--text); cursor:pointer;
+.theme-description {
+  margin: 4px 0 0;
+  max-width: 440px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 .game-shell {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 45%),
+    radial-gradient(circle at 50% -15%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 40%),
     var(--panel);
   border: 1px solid var(--line);
   touch-action: none;
 }
-canvas { display:block; width:100%; height:100%; }
 
-.drop-line {
-  position:absolute; z-index:3; top:20%; left:0; right:0;
-  border-top:1px dashed rgba(255,255,255,.22);
-  pointer-events:none;
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.effect-layer { position:absolute; inset:0; z-index:5; pointer-events:none; overflow:hidden; }
+.game-hud {
+  position: absolute;
+  z-index: 7;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.hud-left,
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.scorebox,
+.next,
+.controls > * {
+  pointer-events: auto;
+  border: 1px solid rgba(255,255,255,.13);
+  background: rgba(14,11,18,.66);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.scorebox {
+  min-width: 70px;
+  height: 48px;
+  padding: 6px 9px;
+  text-align: right;
+}
+
+.scorebox span {
+  display: block;
+  color: var(--muted);
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+
+.scorebox strong {
+  display: block;
+  margin-top: -1px;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.next {
+  height: 48px;
+  padding: 4px 6px 4px 8px;
+  color: var(--muted);
+  font-size: 8px;
+  letter-spacing: .12em;
+  gap: 5px;
+}
+
+.next-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.next-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controls {
+  pointer-events: none;
+}
+
+#theme-select {
+  pointer-events: auto;
+  max-width: 132px;
+  height: 40px;
+  padding: 0 8px;
+  color: var(--text);
+  font-size: 10px;
+  outline: none;
+}
+
+#sound-toggle {
+  pointer-events: auto;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.drop-line {
+  position: absolute;
+  z-index: 3;
+  top: 15%;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(255,255,255,.20);
+  pointer-events: none;
+}
+
+.effect-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  overflow: hidden;
+}
 
 .merge-text {
-  position:absolute;
-  transform:translate(-50%,-50%) scale(.55);
-  font-weight:900;
-  letter-spacing:.04em;
-  white-space:nowrap;
-  text-shadow:0 3px 18px rgba(0,0,0,.5);
+  position: absolute;
+  transform: translate(-50%,-50%) scale(.55);
+  font-weight: 900;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  text-shadow: 0 3px 18px rgba(0,0,0,.5);
   animation: mergeText .8s cubic-bezier(.16,.9,.3,1) forwards;
 }
 
 .particle {
-  position:absolute;
-  width:10px; height:10px; border-radius:50%;
-  transform:translate(-50%,-50%);
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%,-50%);
   animation: particleBurst .7s ease-out forwards;
 }
 
 .flash {
-  position:absolute; inset:0; opacity:0; background:white;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: white;
   animation: flash .28s ease-out;
 }
 
 .game-shell.shake { animation: shake .25s linear; }
 
 .gameover {
-  position:absolute; z-index:10; inset:0;
-  display:grid; place-content:center; gap:12px; text-align:center;
-  background:rgba(8,6,10,.84); backdrop-filter:blur(5px);
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 12px;
+  text-align: center;
+  background: rgba(8,6,10,.84);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
-.gameover[hidden] { display:none; }
-.gameover p { margin:0; font-size:14px; letter-spacing:.18em; color:var(--muted); }
-.gameover strong { font-size:52px; }
-.gameover button { padding:12px 18px; border:0; background:var(--text); color:var(--bg); cursor:pointer; }
 
-footer { color:var(--muted); font-size:11px; text-align:center; }
-code { color:var(--accent); }
+.gameover[hidden] { display: none; }
+.gameover p { margin: 0; font-size: 14px; letter-spacing: .18em; color: var(--muted); }
+.gameover strong { font-size: 52px; }
+.gameover button { padding: 12px 18px; border: 0; background: var(--text); color: var(--bg); cursor: pointer; }
 
 @keyframes mergeText {
   0% { opacity:0; transform:translate(-50%,-50%) scale(.45) rotate(-6deg); }
   25% { opacity:1; transform:translate(-50%,-70%) scale(1.12) rotate(2deg); }
   100% { opacity:0; transform:translate(-50%,-130%) scale(.96); }
 }
+
 @keyframes particleBurst {
   from { opacity:1; translate:0 0; scale:1; }
   to { opacity:0; translate:var(--dx) var(--dy); scale:.2; }
 }
+
 @keyframes flash {
-  0% { opacity:0; } 30% { opacity:.32; } 100% { opacity:0; }
+  0% { opacity:0; }
+  30% { opacity:.32; }
+  100% { opacity:0; }
 }
+
 @keyframes shake {
   0%,100% { transform:translate(0,0); }
   25% { transform:translate(-5px,2px); }
@@ -142,21 +263,47 @@ code { color:var(--accent); }
 }
 
 @media (max-width: 420px) {
-  .app { padding:12px 10px 20px; }
-  .statusbar p { display:none; }
-}
+  .app { padding: 7px 4px 10px; }
+  .topbar { padding: 2px 5px 7px; }
+  .theme-description { display: none; }
 
-.controls { display:flex; align-items:center; gap:8px; }
-#theme-select {
-  max-width: 155px;
-  height: 38px;
-  padding: 0 9px;
-  border: 1px solid var(--line);
-  background: var(--panel-2);
-  color: var(--text);
-  font: inherit;
-  font-size: 11px;
-}
-@media (max-width: 420px) {
-  #theme-select { max-width: 125px; }
+  .game-hud {
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    gap: 5px;
+  }
+
+  .hud-left,
+  .controls { gap: 5px; }
+
+  .scorebox {
+    min-width: 61px;
+    height: 44px;
+    padding: 5px 7px;
+  }
+
+  .scorebox strong { font-size: 18px; }
+
+  .next {
+    height: 44px;
+    padding: 3px 5px 3px 6px;
+  }
+
+  .next-preview {
+    width: 34px;
+    height: 34px;
+  }
+
+  #theme-select {
+    max-width: 104px;
+    height: 38px;
+    padding: 0 6px;
+    font-size: 9px;
+  }
+
+  #sound-toggle {
+    width: 38px;
+    height: 38px;
+  }
 }
