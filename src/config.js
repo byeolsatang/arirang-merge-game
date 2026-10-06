@@ -1,4 +1,8 @@
-import theme from "../themes/arirang-base.js";
+import { themes, getThemeById } from "../themes/index.js";
+
+const params = new URLSearchParams(window.location.search);
+const requestedTheme = params.get("theme") || localStorage.getItem("arirang-merge-theme") || themes[0].id;
+const theme = getThemeById(requestedTheme);
 
 export function applyThemeToDocument() {
   document.title = theme.title;
@@ -14,6 +18,24 @@ export function applyThemeToDocument() {
   root.style.setProperty("--text", c.text);
   root.style.setProperty("--muted", c.muted);
   root.style.setProperty("--accent", c.accent);
+}
+
+export function mountThemeSelector(select) {
+  select.innerHTML = "";
+  themes.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.title;
+    option.selected = item.id === theme.id;
+    select.appendChild(option);
+  });
+
+  select.addEventListener("change", () => {
+    localStorage.setItem("arirang-merge-theme", select.value);
+    const url = new URL(window.location.href);
+    url.searchParams.set("theme", select.value);
+    window.location.href = url.toString();
+  });
 }
 
 export function getMergeEffect(level) {
