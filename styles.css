@@ -67,7 +67,7 @@ h1 { margin: 0; font-size: clamp(20px, 5vw, 30px); line-height: 1.05; }
 .game-shell {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   background:
     radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 45%),
