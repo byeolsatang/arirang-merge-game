@@ -10,42 +10,42 @@
 <body>
   <main class="app">
     <header class="topbar">
-      <div>
+      <div class="title-block">
         <p class="eyebrow" id="theme-kicker">ARIRANG MERGE GAME</p>
         <h1 id="theme-title">ARIRANG Merge Game</h1>
-      </div>
-      <div class="scorebox">
-        <span>SCORE</span>
-        <strong id="score">0</strong>
+        <p id="theme-description" class="theme-description">Theme-driven merge game.</p>
       </div>
     </header>
 
-    <section class="statusbar">
-      <div class="next">
-        <span>NEXT</span>
-        <div id="next-preview" class="next-preview"></div>
-      </div>
-      <p id="theme-description">Theme-driven merge game.</p>
-      <div class="controls">
-        <select id="theme-select" aria-label="テーマを選ぶ"></select>
-        <button id="sound-toggle" type="button" aria-label="sound toggle">🔊</button>
-      </div>
-    </section>
-
     <section id="game-shell" class="game-shell">
+      <div class="game-hud" aria-label="game controls">
+        <div class="hud-left">
+          <div class="scorebox">
+            <span>SCORE</span>
+            <strong id="score">0</strong>
+          </div>
+          <div class="next">
+            <span>NEXT</span>
+            <div id="next-preview" class="next-preview"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <select id="theme-select" aria-label="テーマを選ぶ"></select>
+          <button id="sound-toggle" type="button" aria-label="sound toggle">🔊</button>
+        </div>
+      </div>
+
       <div id="drop-line" class="drop-line"></div>
       <div id="effect-layer" class="effect-layer" aria-hidden="true"></div>
       <canvas id="game-canvas"></canvas>
+
       <div id="gameover" class="gameover" hidden>
         <p>GAME OVER</p>
         <strong id="final-score">0</strong>
         <button id="restart" type="button">もう一度</button>
       </div>
     </section>
-
-    <footer>
-      <p>Choose a theme, then merge your way to LEGEND.</p>
-    </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
