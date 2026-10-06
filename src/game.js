@@ -1,4 +1,4 @@
-import theme, { applyThemeToDocument } from "./config.js";
+import theme, { applyThemeToDocument, mountThemeSelector } from "./config.js";
 import { playMergeEffect } from "./effects.js";
 import { playSound, setAudioEnabled, isAudioEnabled } from "./audio.js";
 
@@ -13,8 +13,10 @@ const gameoverEl = document.getElementById("gameover");
 const finalScoreEl = document.getElementById("final-score");
 const restartBtn = document.getElementById("restart");
 const soundToggle = document.getElementById("sound-toggle");
+const themeSelect = document.getElementById("theme-select");
 
 applyThemeToDocument();
+mountThemeSelector(themeSelect);
 
 let engine;
 let ctx;
