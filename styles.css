@@ -123,31 +123,36 @@ canvas {
 }
 
 .next {
-  width: 66px;
-  height: 64px;
-  padding: 6px 7px 7px;
+  width: 44px;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   color: var(--muted);
-  font-size: 8px;
-  letter-spacing: .12em;
+  font-size: 7px;
+  letter-spacing: .14em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
+  gap: 3px;
 }
 
 .next-preview {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   overflow: hidden;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
+  background: rgba(14,11,18,.72);
+  border: 1px solid rgba(255,255,255,.18);
   color: var(--text);
-  font-size: 14px;
+  font-size: 16px;
   flex: 0 0 auto;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .next-preview img {
@@ -292,16 +297,14 @@ canvas {
   .scorebox strong { font-size: 18px; }
 
   .next {
-    width: 60px;
-    height: 60px;
-    padding: 5px 6px 6px;
-    gap: 3px;
+    width: 40px;
+    gap: 2px;
   }
 
   .next-preview {
-    width: 28px;
-    height: 28px;
-    font-size: 13px;
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
   }
 
   #theme-select {
