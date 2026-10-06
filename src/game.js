@@ -265,6 +265,7 @@ function resetGame() {
 
 function bindEvents() {
   shell.addEventListener("pointerdown", (e) => {
+    if (e.target.closest?.(".game-hud")) return;
     if (!canDrop || gameOver) return;
 
     aiming = true;
