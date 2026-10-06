@@ -30,6 +30,8 @@ let gameOver = false;
 let pointerX = 0;
 let imageCache = new Map();
 let mergingBodies = new Set();
+let aiming = false;
+let activePointerId = null;
 
 function resizeCanvas() {
   const rect = shell.getBoundingClientRect();
@@ -262,10 +264,45 @@ function resetGame() {
 }
 
 function bindEvents() {
-  shell.addEventListener("pointermove", (e) => { pointerX = pointerPosition(e); });
   shell.addEventListener("pointerdown", (e) => {
+    if (!canDrop || gameOver) return;
+
+    aiming = true;
+    activePointerId = e.pointerId;
     pointerX = pointerPosition(e);
-    dropAt(pointerX);
+
+    if (shell.setPointerCapture) {
+      try { shell.setPointerCapture(e.pointerId); } catch {}
+    }
+  });
+
+  shell.addEventListener("pointermove", (e) => {
+    if (!aiming || e.pointerId !== activePointerId) return;
+    pointerX = pointerPosition(e);
+  });
+
+  const finishAim = (e, shouldDrop) => {
+    if (!aiming || e.pointerId !== activePointerId) return;
+
+    pointerX = pointerPosition(e);
+
+    aiming = false;
+    activePointerId = null;
+
+    if (shell.hasPointerCapture?.(e.pointerId)) {
+      try { shell.releasePointerCapture(e.pointerId); } catch {}
+    }
+
+    if (shouldDrop) {
+      dropAt(pointerX);
+    }
+  };
+
+  shell.addEventListener("pointerup", (e) => finishAim(e, true));
+  shell.addEventListener("pointercancel", (e) => finishAim(e, false));
+  shell.addEventListener("lostpointercapture", () => {
+    aiming = false;
+    activePointerId = null;
   });
 
   restartBtn.addEventListener("click", resetGame);
