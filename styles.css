@@ -416,7 +416,7 @@ canvas {
 @media (max-width: 420px) {
   .app {
     padding:
-      calc(env(safe-area-inset-top, 0px) + 7px)
+      max(calc(env(safe-area-inset-top, 0px) + 12px), 46px)
       4px
       calc(env(safe-area-inset-bottom, 0px) + 10px);
   }
