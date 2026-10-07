@@ -91,27 +91,92 @@ canvas {
 }
 
 .hud-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
   pointer-events: auto;
   display: flex;
   align-items: center;
   gap: 10px;
   min-height: 54px;
   padding: 7px 10px;
-  border: 1px solid var(--glass-border);
-  border-radius: 26px;
+
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 30px;
+
   background:
     linear-gradient(
       180deg,
-      rgba(255,255,255,.07),
-      rgba(255,255,255,.018)
+      rgba(255,255,255,.085) 0%,
+      rgba(255,255,255,.025) 45%,
+      rgba(255,255,255,.012) 100%
     ),
-    var(--glass-bg);
-  backdrop-filter: blur(14px) saturate(125%);
-  -webkit-backdrop-filter: blur(14px) saturate(125%);
+    rgba(255,255,255,.022);
+
+  backdrop-filter: blur(15px) saturate(128%);
+  -webkit-backdrop-filter: blur(15px) saturate(128%);
+
   box-shadow:
-    0 8px 28px var(--glass-shadow),
-    inset 0 1px 0 var(--glass-highlight),
-    inset 0 -1px 0 rgba(255,255,255,.04);
+    0 8px 26px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.10),
+    inset 0 -1px 0 rgba(255,255,255,.045);
+}
+
+.hud-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.34) 0%,
+      rgba(255,255,255,.13) 8%,
+      rgba(255,255,255,0) 24%
+    ),
+    linear-gradient(
+      to top,
+      rgba(255,255,255,.20) 0%,
+      rgba(255,255,255,.07) 8%,
+      rgba(255,255,255,0) 22%
+    ),
+    radial-gradient(
+      110% 80% at 18% 0%,
+      rgba(255,255,255,.14) 0%,
+      rgba(255,255,255,0) 52%
+    ),
+    radial-gradient(
+      120% 85% at 85% 100%,
+      rgba(255,255,255,.07) 0%,
+      rgba(255,255,255,0) 48%
+    );
+
+  filter: blur(9px);
+  opacity: .94;
+}
+
+.hud-panel::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08),
+    0 0 16px rgba(255,255,255,.035);
+
+  opacity: .95;
+}
+
+.hud-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hud-panel-left {
@@ -168,13 +233,23 @@ canvas {
   overflow: hidden;
   color: var(--text);
   font-size: 15px;
+
   background:
-    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.04)),
-    rgba(0,0,0,.16);
-  border: 1px solid rgba(255,255,255,.18);
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.15) 0%,
+      rgba(255,255,255,.035) 52%,
+      rgba(255,255,255,.015) 100%
+    ),
+    rgba(0,0,0,.10);
+
+  border: 1px solid rgba(255,255,255,.16);
+
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.12),
-    0 2px 10px rgba(0,0,0,.10);
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(255,255,255,.05),
+    0 2px 10px rgba(0,0,0,.08),
+    0 0 10px rgba(255,255,255,.025);
 }
 
 .next-preview img {
@@ -187,11 +262,23 @@ canvas {
   max-width: 150px;
   height: 40px;
   padding: 0 30px 0 13px;
-  border: 0;
+  border: 1px solid rgba(255,255,255,.085);
   outline: none;
   border-radius: 20px;
   color: var(--text);
-  background: rgba(255,255,255,.025);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.085),
+      rgba(255,255,255,.018)
+    ),
+    rgba(255,255,255,.015);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.09),
+    inset 0 -1px 0 rgba(255,255,255,.025);
+
   font-size: 10px;
   letter-spacing: .01em;
   appearance: auto;
@@ -207,10 +294,22 @@ canvas {
   width: 40px;
   height: 40px;
   padding: 0;
-  border: 0;
+  border: 1px solid rgba(255,255,255,.085);
   border-radius: 50%;
   color: var(--text);
-  background: rgba(255,255,255,.025);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.09),
+      rgba(255,255,255,.02)
+    ),
+    rgba(255,255,255,.015);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.10),
+    inset 0 -1px 0 rgba(255,255,255,.03);
+
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -327,7 +426,7 @@ canvas {
     min-height: 50px;
     padding: 6px 8px;
     gap: 7px;
-    border-radius: 24px;
+    border-radius: 28px;
   }
 
   .hud-panel-left {
