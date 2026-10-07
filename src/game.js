@@ -177,13 +177,25 @@ function drawPiece(body) {
 function drawDropGuide() {
   if (!canDrop || gameOver) return;
   const def = levelDef(nextLevel);
+  const y = Math.max(def.radius + 8, 38);
+
   ctx.save();
-  ctx.globalAlpha = 0.65;
+
+  // Soft fill makes the aiming piece readable even behind the glass HUD.
   ctx.beginPath();
-  ctx.arc(pointerX, Math.max(def.radius + 8, 38), def.radius, 0, Math.PI * 2);
-  ctx.strokeStyle = "rgba(255,255,255,.7)";
-  ctx.setLineDash([4, 4]);
+  ctx.arc(pointerX, y, def.radius, 0, Math.PI * 2);
+  ctx.fillStyle = "rgba(255,255,255,.10)";
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(pointerX, y, def.radius, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(255,255,255,.95)";
+  ctx.lineWidth = 2;
+  ctx.setLineDash([5, 4]);
+  ctx.shadowColor = "rgba(0,0,0,.35)";
+  ctx.shadowBlur = 6;
   ctx.stroke();
+
   ctx.restore();
 }
 
