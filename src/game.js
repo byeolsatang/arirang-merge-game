@@ -68,10 +68,17 @@ function initPhysics() {
 
   const wall = 24;
   const floor = 24;
+  const bottomInset = 6;
   const walls = [
     Bodies.rectangle(-wall / 2, height / 2, wall, height * 2, { isStatic: true, label: "wall" }),
     Bodies.rectangle(width + wall / 2, height / 2, wall, height * 2, { isStatic: true, label: "wall" }),
-    Bodies.rectangle(width / 2, height + floor / 2, width + 60, floor, { isStatic: true, label: "floor" })
+    Bodies.rectangle(
+      width / 2,
+      height - bottomInset + floor / 2,
+      width + 60,
+      floor,
+      { isStatic: true, label: "floor" }
+    )
   ];
   Composite.add(engine.world, walls);
 
