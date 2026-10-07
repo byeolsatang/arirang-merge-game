@@ -68,7 +68,7 @@ function initPhysics() {
 
   const wall = 24;
   const floor = 24;
-  const bottomInset = 6;
+  const bottomInset = 2;
   const walls = [
     Bodies.rectangle(-wall / 2, height / 2, wall, height * 2, { isStatic: true, label: "wall" }),
     Bodies.rectangle(width + wall / 2, height / 2, wall, height * 2, { isStatic: true, label: "wall" }),
