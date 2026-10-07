@@ -14,6 +14,14 @@ const finalScoreEl = document.getElementById("final-score");
 const restartBtn = document.getElementById("restart");
 const soundToggle = document.getElementById("sound-toggle");
 const themeSelect = document.getElementById("theme-select");
+const clearScreen = document.getElementById("clear-screen");
+const clearPreview = document.getElementById("clear-preview");
+const clearMessage = document.getElementById("clear-message");
+const clearScore = document.getElementById("clear-score");
+const clearRestartBtn = document.getElementById("clear-restart");
+const clearThemeBtn = document.getElementById("clear-theme");
+
+const debugMode = new URLSearchParams(window.location.search).get("debug") === "1";
 
 applyThemeToDocument();
 mountThemeSelector(themeSelect);
@@ -27,6 +35,7 @@ let score = 0;
 let nextLevel = 0;
 let canDrop = true;
 let gameOver = false;
+let cleared = false;
 let pointerX = 0;
 let imageCache = new Map();
 let mergingBodies = new Set();
@@ -46,6 +55,10 @@ function resizeCanvas() {
 }
 
 function randomSpawnLevel() {
+  if (debugMode) {
+    return Math.max(0, theme.levels.length - 2);
+  }
+
   const { minLevel, maxLevel } = theme.spawn;
   return minLevel + Math.floor(Math.random() * (maxLevel - minLevel + 1));
 }
@@ -137,6 +150,10 @@ function mergeBodies(a, b) {
   playMergeEffect(effectLayer, shell, x, y, next);
   playSound(theme.audio.mergeDefault, 0.75);
 
+  if (next === theme.levels.length - 1) {
+    setTimeout(() => showClearScreen(next), 700);
+  }
+
   setTimeout(() => {
     mergingBodies.delete(a.id);
     mergingBodies.delete(b.id);
@@ -182,7 +199,7 @@ function drawPiece(body) {
 }
 
 function drawDropGuide() {
-  if (!canDrop || gameOver) return;
+  if (!canDrop || gameOver || cleared) return;
   const def = levelDef(nextLevel);
   const y = Math.max(def.radius + 8, 38);
 
@@ -249,7 +266,7 @@ function pointerPosition(event) {
 }
 
 function checkGameOver() {
-  if (gameOver) return;
+  if (gameOver || cleared || debugMode) return;
   const dangerY = height * 0.2;
 
   const offenders = Composite.allBodies(engine.world).filter((body) =>
@@ -267,12 +284,40 @@ function checkGameOver() {
   playSound(theme.audio.gameOver, 0.85);
 }
 
+
+function showClearScreen(level) {
+  if (cleared) return;
+
+  cleared = true;
+  canDrop = false;
+  aiming = false;
+  activePointerId = null;
+
+  const def = levelDef(level);
+  clearScore.textContent = score;
+  clearMessage.textContent = theme.mergeEffects[level]?.text || "LEGENDARY ✨";
+  clearPreview.innerHTML = "";
+
+  if (def.asset) {
+    const img = document.createElement("img");
+    img.src = def.asset;
+    img.alt = def.label;
+    clearPreview.appendChild(img);
+  } else {
+    clearPreview.textContent = def.emoji || "🏆";
+  }
+
+  clearScreen.hidden = false;
+}
+
 function resetGame() {
   score = 0;
   scoreEl.textContent = "0";
   gameOver = false;
+  cleared = false;
   canDrop = true;
   gameoverEl.hidden = true;
+  clearScreen.hidden = true;
   nextLevel = randomSpawnLevel();
 
   Composite.clear(engine.world, false, true);
@@ -326,6 +371,14 @@ function bindEvents() {
   });
 
   restartBtn.addEventListener("click", resetGame);
+  clearRestartBtn.addEventListener("click", resetGame);
+
+  clearThemeBtn.addEventListener("click", () => {
+    clearScreen.hidden = true;
+    cleared = false;
+    canDrop = true;
+    themeSelect.focus();
+  });
 
   soundToggle.addEventListener("click", () => {
     const next = !isAudioEnabled();
