@@ -19,19 +19,23 @@
 
     <section id="game-shell" class="game-shell">
       <div class="game-hud" aria-label="game controls">
-        <div class="hud-left">
+        <div class="hud-panel hud-panel-left">
           <div class="scorebox">
             <span>SCORE</span>
             <strong id="score">0</strong>
           </div>
+
+          <div class="hud-divider" aria-hidden="true"></div>
+
           <div class="next">
             <span>NEXT</span>
             <div id="next-preview" class="next-preview"></div>
           </div>
         </div>
 
-        <div class="controls">
+        <div class="hud-panel hud-panel-right">
           <select id="theme-select" aria-label="テーマを選ぶ"></select>
+          <div class="hud-divider" aria-hidden="true"></div>
           <button id="sound-toggle" type="button" aria-label="sound toggle">🔊</button>
         </div>
       </div>
